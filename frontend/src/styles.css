@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Signals design tokens — WHOOP-inspired clinical laboratory.
+   Light-primary, monochrome, single violet accent. Semantic status colors
+   only for health readiness. */
+:root {
+  /* surfaces */
+  --bg: #ffffff;            /* page canvas */
+  --bg-dark: #000000;       /* top bar, dark sections */
+  --surface-dark: #191919;  /* secondary dark surface */
+  --surface: #f3f5f9;       /* elevated light card */
+  --card: #ffffff;          /* plain card on light */
+  --line: #e5e7eb;          /* borders / dividers */
+
+  /* text */
+  --ink: #000000;
+  --muted: #808080;
+  --faint: #999999;
+  --on-dark: #ffffff;
+  --on-dark-muted: #9aa0aa;
+
+  /* accent — used sparingly */
+  --accent: #4a53ff;
+  --accent-soft: #ecedff;
+
+  /* semantic health status only (clinical, restrained) */
+  --status-good: #1f9e6f;
+  --status-mid: #c99700;
+  --status-low: #d1495b;
+
+  /* legacy aliases mapped onto the new system (kept so nothing breaks) */
+  --bg-2: #f3f5f9;
+  --surface-2: #eceef2;
+  --heart: #000000;
+  --move: #000000;
+  --rest: #4a53ff;
+
+  /* scale */
+  --radius-card: 24px;
+  --radius-button: 9999px;
+  --space-card: 24px;
+
+  --font-disp: "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* tabular numbers wherever data lives */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* editorial heading treatment */
+.heading {
+  font-family: var(--font-disp);
+  letter-spacing: -0.02em;
+}
+
+/* small uppercase label with tracking */
+.eyebrow {
+  font-family: var(--font-disp);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

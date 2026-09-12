@@ -1,0 +1,90 @@
+# Signals — score configuration.
+# Every weight, threshold and calibration parameter lives here (never hard-coded).
+# Bump algorithm_version whenever a change alters historical score values.
+
+algorithm_version = "1.0.0"
+
+[baseline]
+window_days = 28          # target rolling window
+min_days = 7              # below this: no baseline, no score
+metrics = ["hrv_rmssd", "resting_hr", "respiratory_rate", "skin_temp_delta", "sleep_minutes"]
+
+[recovery]
+# Weights renormalize over the components actually available that day.
+[recovery.weights]
+hrv = 0.35
+resting_hr = 0.25
+sleep = 0.25
+respiratory_rate = 0.05
+skin_temp = 0.05
+spo2 = 0.05
+
+[recovery.scaling]
+# Deviation (fraction of baseline) that maps to a "strong" signal (tanh scale).
+hrv_strong_deviation = 0.20          # ±20 % HRV vs baseline saturates
+resting_hr_strong_deviation = 0.08   # ±8 % RHR vs baseline saturates
+respiratory_strong_deviation = 0.12
+skin_temp_strong_delta_celsius = 0.7 # absolute °C deviation that saturates
+spo2_normal = 96.0                   # >= this: neutral-positive
+spo2_low = 92.0                      # at/below this: fully negative
+
+[recovery.status]
+low_max = 33
+moderate_max = 66
+# 67..100 = high
+
+[strain]
+# ADR 0001: continuous HRR intensity, 1-minute resampling, Fitbit zones display-only.
+resample_minutes = 1
+intensity_floor = 0.30    # HRR fraction below which a minute contributes nothing
+intensity_gamma = 2.0     # curvature of the weight function above the floor
+load_k = 40.0             # strain = 21 * (1 - exp(-load / k)); calibrated so a hard
+                          # 90-min session lands ~15-17 and a rest day stays under 3
+max_strain = 21.0
+hr_max_age_formula_base = 220
+hr_max_observed_percentile = 99.9
+hr_max_blend_full_days = 28   # observed estimate reaches full weight after this many days
+min_minutes_for_score = 360   # below 6 h of HR coverage: no strain score
+
+[strain.status]
+light_max = 7.9
+moderate_max = 13.9
+high_max = 17.9
+# above = maximal
+
+[sleep]
+need_default_minutes = 480       # 8 h until personalization kicks in
+debt_window_days = 14
+debt_need_factor = 0.33          # need += factor * nightly_debt_average
+debt_need_cap_minutes = 45
+consistency_window_days = 14
+consistency_strong_stddev_minutes = 90   # bedtime stddev that maps to score 0
+efficiency_full = 0.95
+efficiency_zero = 0.70
+deep_target_share = 0.17
+rem_target_share = 0.21
+
+[sleep.weights]
+duration = 0.45
+efficiency = 0.20
+consistency = 0.20
+stages = 0.15
+
+[sleep.status]
+weak_max = 59
+solid_max = 84
+# 85..100 = optimal
+
+[insights]
+hrv_notable_pct = 8.0            # % vs baseline worth mentioning
+rhr_notable_bpm = 3.0
+sleep_shortfall_notable_min = 30
+strain_high_threshold = 14.0
+skin_temp_notable_celsius = 0.5
+spo2_notable = 94.0
+bedtime_stddev_notable_min = 60
+weekly_azm_target = 150          # WHO guideline
+recovery_vs_week_notable_pct = 10.0
+
+[trends]
+min_days_for_correlation = 14

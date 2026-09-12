@@ -1,0 +1,31 @@
+# secrets & personal data — never commit
+.env
+.fitbit_tokens.json
+.deploy-secrets
+data/*.db
+CURRENT_URL.txt
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# frontend
+frontend/node_modules/
+frontend/dist/
+
+# personal hosting scripts (not part of the open-source project)
+service.sh
+tunnel.sh
+deploy.sh
+fly.toml
+fly.toml.bak
+
+# early prototype (superseded by the app)
+dashboard.html
+dashboard.py
+html_template.py
+
+# local editor / tooling config
+.claude/
+.DS_Store

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+.git/
+data/
+*.db
+.env
+.fitbit_tokens.json
+frontend/node_modules/
+frontend/dist/
+dashboard.html
+html_template.py
+.claude/
+docs/
